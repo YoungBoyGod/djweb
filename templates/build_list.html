@@ -1,0 +1,30 @@
+<!-- templates/jenkins_data/build_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jenkins Build Records</title>
+</head>
+<body>
+    <h1>Jenkins Build Records</h1>
+    <table>
+        <tr>
+            <th>Task Name</th>
+            <th>Build URL</th>
+            <th>Build Date</th>
+            <th>Build File Name</th>
+            <th>Build File URL</th>
+            <th>Local Download Path</th>
+        </tr>
+        {% for build in builds %}
+        <tr>
+            <td>{{ build.task_name }}</td>
+            <td><a href="{{ build.build_url }}">{{ build.build_url }}</a></td>
+            <td>{{ build.build_date }}</td>
+            <td>{{ build.build_file_name }}</td>
+            <td><a href="{{ build.build_file_url }}">{{ build.build_file_url }}</a></td>
+            <td>{{ build.local_download_path }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
