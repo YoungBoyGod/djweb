@@ -1,0 +1,32 @@
+{% extends "admin/change_form.html" %}
+{% load simple_history_compat %}
+
+{% block after_field_sets %}
+    {% if history_admin %}
+        <h2>Historical Modification Records</h2>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Modified By</th>
+                        <th>Modification Date</th>
+                        <th>Changes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for history_record in history_admin.history_instance %}
+                        <tr>
+                            <td>{{ history_record.history_user }}</td>
+                            <td>{{ history_record.history_date }}</td>
+                            <td>
+                                {% for field_name, old_value, new_value in history_record.history_diff %}
+                                    {{ field_name }}: {{ old_value }} ➔ {{ new_value }}<br>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

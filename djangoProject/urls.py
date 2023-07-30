@@ -19,5 +19,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cicd/', include('cicd.urls')),
+    # path('cmdb/', include('cmdb.urls')),
     # path('celery/', include('django_celery_beat.urls')),
 ]

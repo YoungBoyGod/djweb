@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#tu99=uwae(g-+%41vd!4bm_zg)m2ro0nk5nd_bzmcf9hod=uv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["10.2.24.136"]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Application definition
 
@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'web.apps.WebConfig',
     'rest_framework',
     'cicd.apps.CicdConfig',
+    'cmdb',
+    'simple_history',
+
     # 'django_celery_beat',
 ]
 
@@ -104,7 +107,7 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'web_demo001',
+        'NAME': 'webdemo008',
         'USER': 'admin',
         'PASSWORD': '123456',
         'HOST': '10.2.24.136',

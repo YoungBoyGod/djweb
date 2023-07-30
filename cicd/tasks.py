@@ -8,7 +8,7 @@ import jenkins
 from datetime import datetime
 
 
-@shared_task
+# @shared_task
 def get_jenkins_build_data():
     server = jenkins.Jenkins('http://10.2.24.135:8080', username='luo', password='luo')
     jobs = server.get_all_jobs()
