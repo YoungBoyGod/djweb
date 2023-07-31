@@ -13,6 +13,9 @@ import os
 
 import rest_framework
 from pathlib import Path
+# from django.contrib.auth.models import User
+#
+# User._meta.get_field('last_login').null = True
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -107,7 +110,7 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'webdemo008',
+        'NAME': 'webdemo009',
         'USER': 'admin',
         'PASSWORD': '123456',
         'HOST': '10.2.24.136',
@@ -135,7 +138,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'zh-hans'
+LANGUAGE_CODE = 'zh-Hans'
 
 TIME_ZONE = 'Asia/Shanghai'
 
