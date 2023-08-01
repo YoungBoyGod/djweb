@@ -18,6 +18,8 @@ from pathlib import Path
 # User._meta.get_field('last_login').null = True
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.template.context_processors import media
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -166,3 +168,7 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': 30.0,  # 每隔30秒运行一次任务
     },
 }
+
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, '/templates/media')

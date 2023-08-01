@@ -10,7 +10,22 @@ from django.dispatch import receiver
 # from django import forms
 
 
-class DepartmentAdmin(SimpleHistoryAdmin, admin.ModelAdmin):
+class BaseAdmin(SimpleHistoryAdmin):
+
+    def get_search_fields(self, request):
+        search_fields = [f"{name}__icontains" for name in self.list_display]
+        return search_fields
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super().get_search_results(request, queryset, search_term)
+
+        for name in self.list_display:
+            queryset |= self.model.objects.filter(**{f"{name}__icontains": search_term})
+
+        return queryset, use_distinct
+
+
+class DepartmentAdmin(BaseAdmin):
     list_display = ('name', 'leader')
 
 
@@ -19,6 +34,8 @@ admin.site.register(Department, DepartmentAdmin)
 
 class PersonnelInfoAdmin(SimpleHistoryAdmin, admin.ModelAdmin):
     list_display = ('name', 'email', 'department_display')
+
+    # search_fields  = ('name', 'email', 'department_display')
 
     def department_display(self, obj):
         return ", ".join([dept.name for dept in obj.department_set.all()])
@@ -46,7 +63,7 @@ class PCInfoForm(forms.ModelForm):
         }
 
 
-class PCInfoAdmin(SimpleHistoryAdmin, admin.ModelAdmin):
+class PCInfoAdmin(BaseAdmin):
     form = PCInfoForm
 
     fieldsets = (
@@ -84,7 +101,7 @@ admin.site.register(PCInfo, PCInfoAdmin)
 # admin.site.register(PCInfo)
 
 
-class OSInfoAdmin(SimpleHistoryAdmin, admin.ModelAdmin):
+class OSInfoAdmin(BaseAdmin):
     list_display = ('ip', 'device_type', 'os_login_user', 'os_login_password', 'bmc_ip')
     list_filter = ('device_type',)
 
@@ -111,20 +128,13 @@ admin.site.register(OSInfo, OSInfoAdmin)
 # admin.site.register(OSInfo)
 
 
-class BoardInfoAdmin(SimpleHistoryAdmin, admin.ModelAdmin):
+class BoardInfoAdmin(BaseAdmin):
     received_time = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     list_display = (
-        'model', 'received_person', 'model', 'cooling_method', 'received_time', 'installed_time', 'maintain_records')
+        'model', 'received_person', 'serial_number', 'cooling_method', 'received_time', 'maintain_records')
     list_filter = ('cooling_method', 'model')
-    readonly_fields = ('maintain_records',)
 
     ordering = ['serial_number']
-
-    # @receiver(post_save, sender=BoardInfo)
-    # def add_system_log(self,sender, instance, created, **kwargs):
-    #     msg = "创建对象" if created else "更新对象"
-    #     instance.maintain_records += f"\n{now()} - {msg}"
-    #     instance.save()
 
     # 注册 BoardInfo 模型
 

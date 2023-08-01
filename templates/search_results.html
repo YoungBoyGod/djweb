@@ -1,0 +1,36 @@
+<h2>搜索结果</h2>
+
+{% if results %}
+
+<table>
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>部门</th>
+      <th>板卡序列号</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  {% for result in results %}
+    {% if result|is_personnel %}
+      <tr>
+        <td>{{ result.name }}</td>
+        <td>{{ result.department }}</td>
+        <td></td>
+      </tr>
+    {% else %}
+      <tr>
+        <td></td>
+        <td></td>
+        <td>{{ result.serial_number }}</td>
+      </tr>
+    {% endif %}
+  {% endfor %}
+  </tbody>
+
+</table>
+
+{% else %}
+   <p>无搜索结果</p>
+{% endif %}

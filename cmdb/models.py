@@ -7,6 +7,10 @@ from django.utils.timezone import now
 from simple_history.models import HistoricalRecords
 from django.core.validators import validate_ipv46_address
 from django import forms
+from django.contrib.auth.models import User
+import json
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class PersonnelInfo(models.Model):
@@ -74,21 +78,9 @@ class BoardInfo(models.Model):
     received_time = models.DateField(blank=True, null=True)
     received_person = models.CharField(max_length=32, blank=True, null=True, verbose_name="领取人")
     installed_time = models.DateField(blank=True, null=True)
-    maintain_records = models.TextField(null=True, blank=True, verbose_name="维护记录")
+    maintain_records = models.TextField(blank=True, null=True, verbose_name="维护记录")
 
     history = HistoricalRecords()
-
-    def save(self, *args, **kwargs):
-        if self.pk:
-            # 获取最近的一条历史记录
-            last_history = self.history.latest('history_date')
-
-            # 构造日志
-            log = f"{timezone.now()} - {last_history}\n"
-
-            # 拼接日志
-            self.maintain_records += log
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.model} - {self.serial_number} - {self.get_cooling_method_display()}"
@@ -167,3 +159,5 @@ class SummaryInfo(models.Model):
     class Meta:
         verbose_name = "汇总信息"
         verbose_name_plural = "汇总信息"
+
+
